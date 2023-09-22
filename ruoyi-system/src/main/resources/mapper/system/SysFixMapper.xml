@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysFixMapper">
+    
+    <resultMap type="SysFix" id="SysFixResult">
+        <result property="fixId"    column="fix_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysFixVo">
+        select fix_id, user_id, create_by, create_time, update_by, update_time, remark from sys_fix
+    </sql>
+
+    <select id="selectSysFixList" parameterType="SysFix" resultMap="SysFixResult">
+        <include refid="selectSysFixVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysFixByFixId" parameterType="Long" resultMap="SysFixResult">
+        <include refid="selectSysFixVo"/>
+        where fix_id = #{fixId}
+    </select>
+        
+    <insert id="insertSysFix" parameterType="SysFix" useGeneratedKeys="true" keyProperty="fixId">
+        insert into sys_fix
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysFix" parameterType="SysFix">
+        update sys_fix
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where fix_id = #{fixId}
+    </update>
+
+    <delete id="deleteSysFixByFixId" parameterType="Long">
+        delete from sys_fix where fix_id = #{fixId}
+    </delete>
+
+    <delete id="deleteSysFixByFixIds" parameterType="String">
+        delete from sys_fix where fix_id in 
+        <foreach item="fixId" collection="array" open="(" separator="," close=")">
+            #{fixId}
+        </foreach>
+    </delete>
+</mapper>

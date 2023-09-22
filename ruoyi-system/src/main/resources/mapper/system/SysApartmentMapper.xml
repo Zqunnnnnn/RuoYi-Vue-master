@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysApartmentMapper">
-    
+
     <resultMap type="SysApartment" id="SysApartmentResult">
         <result property="apartmentId"    column="apartment_id"    />
         <result property="buildingId"    column="building_id"    />
@@ -17,24 +17,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectSysApartmentVo">
-        select apartment_id, building_id, apartment_name, apartment_price, status, create_by, create_time, update_time, remark from sys_apartment
+        select apartment_id , building_id , apartment_name , apartment_price, status, create_by, create_time, update_time, remark from sys_apartment
     </sql>
 
     <select id="selectSysApartmentList" parameterType="SysApartment" resultMap="SysApartmentResult">
         <include refid="selectSysApartmentVo"/>
-        <where>  
+        <where>
             <if test="buildingId != null "> and building_id = #{buildingId}</if>
             <if test="apartmentName != null  and apartmentName != ''"> and apartment_name like concat('%', #{apartmentName}, '%')</if>
             <if test="apartmentPrice != null "> and apartment_price = #{apartmentPrice}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
         </where>
     </select>
-    
+
     <select id="selectSysApartmentByApartmentId" parameterType="Long" resultMap="SysApartmentResult">
         <include refid="selectSysApartmentVo"/>
         where apartment_id = #{apartmentId}
     </select>
-        
+
+    <select id="selectApartmentByBuildingId" resultMap="SysApartmentResult">
+     <include refid="selectSysApartmentVo"/>
+        where building_id = #{buildingId} and status = 0
+     </select>
+
     <insert id="insertSysApartment" parameterType="SysApartment">
         insert into sys_apartment
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -81,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteSysApartmentByApartmentIds" parameterType="String">
-        delete from sys_apartment where apartment_id in 
+        delete from sys_apartment where apartment_id in
         <foreach item="apartmentId" collection="array" open="(" separator="," close=")">
             #{apartmentId}
         </foreach>

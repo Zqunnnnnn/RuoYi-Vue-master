@@ -24,7 +24,7 @@ import com.ruoyi.system.service.ISysPostService;
 
 /**
  * 岗位信息操作处理
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -43,9 +43,10 @@ public class SysPostController extends BaseController
     {
         startPage();
         List<SysPost> list = postService.selectPostList(post);
+        System.out.println(getDataTable(list));
         return getDataTable(list);
     }
-    
+
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:post:export')")
     @PostMapping("/export")

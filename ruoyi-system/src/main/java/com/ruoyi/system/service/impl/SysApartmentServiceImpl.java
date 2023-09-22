@@ -40,6 +40,18 @@ public class SysApartmentServiceImpl implements ISysApartmentService
     }
 
     /**
+     * 查询公寓管理
+     *
+     * @param buildingId 公寓管理主键
+     * @return 公寓管理
+     */
+
+    @Override
+    public List<SysApartment> selectApartmentByBuildingId(Long buildingId) {
+        return sysApartmentMapper.selectApartmentByBuildingId(buildingId);
+    }
+
+    /**
      * 查询公寓管理列表
      *
      * @param sysApartment 公寓管理
@@ -105,6 +117,10 @@ public class SysApartmentServiceImpl implements ISysApartmentService
     public int updateApartmentStatus(SysApartment apartment) {
         return sysApartmentMapper.updateSysApartment(apartment);
     }
+
+
+
+
 
     @Override
     public void checkApartmentAllowed(SysApartment apartment) {

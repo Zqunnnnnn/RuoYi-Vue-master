@@ -72,6 +72,11 @@ public interface ISysApartmentService
     public int updateApartmentStatus(SysApartment apartment);
 
     /**
+     * 根据buildingId获取房间信息
+     */
+    public List<SysApartment> selectApartmentByBuildingId(Long buildingId);
+
+    /**
      * 校验是否是可操作角色
      * @param apartment
      */
